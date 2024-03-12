@@ -14,8 +14,8 @@ def generateAudio(mytext):
     return name
 
 
-def sendToS3Instance(file, bucket_name="bucket-2234"):
-    s3 = boto3.client('s3', region_name='ap-south-2')
+def sendToS3Instance(file, bucket_name="YOUR_BUCKET"):
+    s3 = boto3.client('s3', region_name='YOUR_REGION')
     s3.upload_file(file, bucket_name, file)
     audio_url_new = s3.generate_presigned_url('get_object', Params={'Bucket': bucket_name, 'Key': file}, ExpiresIn=3600)
     print(audio_url_new)
@@ -25,6 +25,6 @@ def sendToS3Instance(file, bucket_name="bucket-2234"):
 def completeProcess(text):
     _ = generateAudio(text)
     audio_url = sendToS3Instance(_)
-    Twillio.call(audio_url, "+919494517819")
+    Twillio.call(audio_url, "+PHONE_NUMBER")
 
 
