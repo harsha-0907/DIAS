@@ -42,4 +42,3 @@ def newCity(city):
         return False
 
 
-# print(newCity("Gopalapatnam"))
