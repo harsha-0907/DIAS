@@ -25,6 +25,6 @@ def sendToS3Instance(file, bucket_name="YOUR_BUCKET"):
 def completeProcess(text):
     _ = generateAudio(text)
     audio_url = sendToS3Instance(_)
-    Twillio.call(audio_url, "+PHONE_NUMBER")
+    Twillio.call(audio_url, "PHONE_NUMBER_WITH_CODE")
 
 
