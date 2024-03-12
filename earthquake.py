@@ -125,11 +125,3 @@ def getEarthquakeData():
     # Edit the changes back
     var.alerts = alerts
 
-
-#
-# impactArea = calculateImpactArea(magnitude)
-#                     print(len(earthquake_data.keys()))
-#                     coordinates = var.coordinates
-#                     for city in coordinates.keys():
-#                         if haversineDistance(quakecoordinates[1], quakecoordinates[0], coordinates[city][0],
-#                                              coordinates[city][1]) < impactArea:
