@@ -3,7 +3,7 @@
 import requests
 import variables as var
 
-accuweather_apikey = "Olv8lIFctfDGjai58ol7zAIcgX9QiEWi"
+accuweather_apikey = "YOUR_API_KEY"
 period = "5day"
 
 
@@ -56,4 +56,3 @@ def getAllWeatherAlerts():
     return True
 
 
-# print("Report :", getWeatherAlerts("196779"))
