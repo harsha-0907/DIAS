@@ -3,7 +3,7 @@ import requests
 
 
 def convertCoordinatesToCity(lat, lng):
-    apikey = "bdc_43e7339ecac34660a139e16f7073a6ce"  # bigdata-api
+    apikey = "YOUR_API_KEY"  # bigdata-api
     base_url = r"https://api-bdc.net/data/reverse-geocode"
     params = {'latitude': lat, 'longitude': lng, 'localityLanguage': 'en', 'key': apikey}
 
@@ -24,7 +24,7 @@ def convertCoordinatesToCity(lat, lng):
 
 def convertCityToCoordinates(cityname):
     # print(cityname)
-    apikey = "pk.02b5994cb8a776ef80fd220a5ebd8be4"  # Api key for location iq
+    apikey = "YOUR_API_KEY"  # Api key for location iq
     base_url = r"https://us1.locationiq.com/v1/search"
     params = {'key': apikey, 'q': cityname, 'format': 'json'}
     resp = requests.get(base_url, params=params)
@@ -44,6 +44,3 @@ def convertCityToCoordinates(cityname):
         raise Exception("Unknown Error")
     return coordinates
 
-
-# city = convertCoordinatesToCity(17.680, 83.08)
-# print(convertCityToCoordinates(city))
