@@ -1,0 +1,6 @@
+# For the software
+requests  # for managing the api calls
+twillio  # To manage all the calls
+boto3    # To host the audio files in AWS S3 instance 
+apscheduler  # To schedule the events for a defined interval
+gtts      # To obtain audio from a given text file
