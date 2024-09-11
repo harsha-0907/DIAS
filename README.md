@@ -1,11 +1,8 @@
-# DisasterWarning
+# Disaster Information Aggregate System
 
 
 **NOTE**
-    1. This programs describes the server side implementation for Disaster Warning System
-    2. It needs python libraries like boto3(aws), twillio, requests
-    3. Please make sure that the required libraries are present before running
-    4. We have used api's as a source of information on weather
-    5. Please correct any errors that might be still present
-
-
+    1. This programs describes the server side implementation for DIAS software
+    2. Install all the dependencies of the software before running (pip install -r requirments.txt)
+    3. We have used flask franework because it is light-weight and efficient.
+    
