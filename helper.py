@@ -1,0 +1,150 @@
+# Helper Function for all necessary functions
+
+import os
+import sys
+
+def loadPaths():
+    import logging
+    file_path = os.path.abspath(__file__)
+    directory_path = file_path[:file_path.rfind("/")]
+    modules_path = os.path.join(directory_path, "modules")
+
+    if os.path.exists(modules_path):
+        sys.path.append(directory_path)    
+        sys.path.append(modules_path)
+    
+    else:
+        # Modules not Present
+        print("Modules Not Present")
+        exit()
+    
+    print("Modules loaded into sys")
+
+def readFile(file_path):
+    try:
+        if os.path.exists(file_path):
+            with open(file_path, encoding="utf-8", mode='r') as _file:
+                return _file.read()
+        else:
+            return None
+    
+    except Exception as _e:
+        return None
+
+def cityToCoordinates():
+    apikey = "pk.02b5994cb8a776ef80fd220a5ebd8be4"  # Api key for location iq
+    base_url = r"https://us1.locationiq.com/v1/search"
+    params = {'key': apikey, 'q': cityname, 'format': 'json'}
+    coordinates = None
+    try:
+        resp = requests.get(base_url, params=params)
+        data = resp.json()
+        status_code = resp.status_code
+        if status_code == 200:
+            # API KEY is still valid
+            coordinates = (float(data[0]["lat"]), float(data[0]["lon"]))
+            # print(coordinates)
+        elif status_code == 401:
+            print("API Exhausted  while converting City to Coordinates")
+            # Write in a log
+        
+    except Exception as _e:
+        print(f"Unknown Error while converting City to Coordiant\n Error : {_e}")
+    
+    finally:
+        return coordinates
+
+def coordinatesToCity(lat, lng):
+    apikey = "bdc_43e7339ecac34660a139e16f7073a6ce"  # bigdata-api
+    base_url = r"https://api-bdc.net/data/reverse-geocode"
+    params = {'latitude': lat, 'longitude': lng, 'localityLanguage': 'en', 'key': apikey}
+    city = None
+    try:
+        resp = requests.get(base_url, params=params)
+        if resp.status_code == 200:
+            data = resp.json()
+            city = data['city']
+        elif status_code == 401:
+            print("API-BDC API Key Exhausted")
+        
+    except Exception as _e:
+        print(f"Unknown Error\n Error: {_e}")
+
+    finally:    
+        return city
+
+def fetchData(lat, lng):    # This method will be invoked only when user requests resources
+    # The lat & lng will not be None
+    details = None
+    city = coordinatesToCity(lat, lng)
+    if city:
+        from data import dataStore
+        # We need the updated dataStore
+        if city in dataStore:
+            details = dataStore[city]
+        else:
+            newcity = newCity(city)
+            if newcity is not None:
+                dataStore[city] = newcity
+                from earthquake import updateEarthquakeAlerts
+                updateEarthquakeAlerts([city])
+                # Similarly we will do it for Acuweather API
+
+
+                # Now we can fetch the results from the dataStore
+                details = dataStore[city]
+            
+            else:
+                # Unable to create a new city
+                pass
+    
+    return parseResults(details)
+
+def newCity(city):
+    city_coordinates = cityToCoordinates(city)
+    if city_coordinates is not None:
+        return {
+            "city-coordinates": city_coordinates,
+            "numberofalerts": 0,
+            "alert_level": 0,
+            "alerts": []
+        }
+    
+    return None
+
+def updateDataStore(alerts):
+    for alert in alerts:
+        dataStore[city]["alert_level"] = max(dataStore[city]["alert_level"], alert.alert_level)
+        for index, alert_msg in enumerate(dataStore[city]["alerts"]):
+            if alert_msg[1] == alert.message:
+                # We have updated the already existing alert
+                dataStore[city]["alerts"][index][0] = alert.remove_after
+                continue
+        
+        # If the alert is not present then add the alert & update the number of alerts
+        dataStore[city]["alerts"].append(alert.message)
+        dataStore[city]["numberofalerts"] = len(dataStore[city]["alerts"])
+
+
+def parseResults(details):
+    if details is None:
+        return None
+    
+    response = None # Modify the response from the details that will be provided
+
+    return response
+
+def updateAlerts():
+    # Update & Remove any unused alerts
+    from data import dataStore
+    cities = list(dataStore.keys())
+    # We need to update earthquake results & accuweather results
+
+    pass
+
+def updateFireAlerts():
+    # Add a Fire Alert from the sensor
+    pass
+
+def hi():
+    print("Hi")
