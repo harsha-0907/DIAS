@@ -6,7 +6,7 @@ from helper import readFile
 from apscheduler.schedulers.background import BackgroundScheduler
 import uvicorn
 from model import ClientRequest
-from helper import fetchData, updateAlerts, hi, loadPaths
+from helper import updateAlerts
 
 app = FastAPI()
 
@@ -18,14 +18,21 @@ def getHomePage():
 def isWorking():
     return Response(content="{'message': 'Working', 'success': 'true'}", headers={"Content-Type": "application/json"})
 
-@app.post("/getData")
-async def fetchData(request: ClientRequest):
+@app.get("/getData")
+async def fetchData(api_key, lat, lng):
     response = None
+    request = ClientRequest(api_key=api_key, lat=lat, lng=lng)
+    print(request.lat, request.lng, request.api_key)
     if request.api_key is None or request.lat is None or request.lng is None:
         pass
     else:
         if api_key == "ker234kj4kj34j234":
-            response = await fetchData(lat, lng)
+            print("Recieved Request")
+            from helper import fetchData
+            response_data = fetchData(request.lat, request.lng)
+            if response_data is not None:
+                import json
+                response = Response(content=json.dumps(response_data.json()), headers={"Content-Type": "application/json"})
         else:
             pass
     
@@ -45,8 +52,9 @@ async def updateFireAlert(sensorId: str = None, city: str = None):
 
 if __name__ == "__main__":
     print("Server Running")
+    from helper import loadPaths, hi
     loadPaths()
     sch = BackgroundScheduler()
     sch.add_job(hi, 'interval', seconds=5)
-    sch.start()
+    # sch.start()
     uvicorn.run("server:app", reload=True, host="0.0.0.0", port=8080)

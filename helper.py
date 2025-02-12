@@ -2,6 +2,7 @@
 
 import os
 import sys
+import requests
 
 def loadPaths():
     import logging
@@ -70,13 +71,14 @@ def coordinatesToCity(lat, lng):
     except Exception as _e:
         print(f"Unknown Error\n Error: {_e}")
 
-    finally:    
+    finally:
         return city
 
-def fetchData(lat, lng):    # This method will be invoked only when user requests resources
+def fetchData(lat: float, lng: float):    # This method will be invoked only when user requests resources
     # The lat & lng will not be None
     details = None
     city = coordinatesToCity(lat, lng)
+    print(city)
     if city:
         from data import dataStore
         # We need the updated dataStore
@@ -85,17 +87,18 @@ def fetchData(lat, lng):    # This method will be invoked only when user request
         else:
             newcity = newCity(city)
             if newcity is not None:
+                print("New CIty created")
                 dataStore[city] = newcity
                 from earthquake import updateEarthquakeAlerts
                 updateEarthquakeAlerts([city])
                 # Similarly we will do it for Acuweather API
-
 
                 # Now we can fetch the results from the dataStore
                 details = dataStore[city]
             
             else:
                 # Unable to create a new city
+                print("New CIty not created")
                 pass
     
     return parseResults(details)
@@ -125,13 +128,18 @@ def updateDataStore(alerts):
         dataStore[city]["alerts"].append(alert.message)
         dataStore[city]["numberofalerts"] = len(dataStore[city]["alerts"])
 
-
 def parseResults(details):
+    from model import ClientResponse
     if details is None:
-        return None
+        response = ClientResponse(city_coordinates=(0.0, 0.0), alert_level=-1, number_of_alerts=0,
+            alerts=["We are unable to fetch your data"])
     
-    response = None # Modify the response from the details that will be provided
-
+    # Modify the response from the details that will be provided
+    else:
+        response = ClientResponse(city_coordinates=details["city-coordinates"],
+            alert_level=details["alert_level"], number_of_alerts = details["numberofalerts"],
+            alerts=[i[1] for i in details["alerts"]])
+    
     return response
 
 def updateAlerts():
