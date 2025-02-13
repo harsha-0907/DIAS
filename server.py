@@ -60,7 +60,7 @@ if __name__ == "__main__":
     weather_alerts_sch = BackgroundScheduler()
     earth_quake_sch.add_job(updateEarthquakeData, 'interval', seconds=6)
     clear_alerts_sch.add_job(clearAlerts, 'interval', seconds=5)
-    weather_alerts_sch.add_job(updateWeatherUpdates, 'interval', seconds=5)
+    weather_alerts_sch.add_job(updateWeatherUpdates, 'interval', hours=48)
     earth_quake_sch.start()
     clear_alerts_sch.start()
     weather_alerts_sch.start()
