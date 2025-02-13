@@ -124,5 +124,4 @@ def updateEarthquakeAlerts(cities):
     
     from dataproc import updateDataStore
     updateDataStore(alerts)
-    print("Earth Quake Data Updated")
 

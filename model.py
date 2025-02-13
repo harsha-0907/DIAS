@@ -7,14 +7,6 @@ class ClientRequest(BaseModel):
     lat: float = None
     lng: float = None
 
-"""
-{
-    "api_key": "ker234kj4kj34j234"
-    "lat": 17.14,
-    "lng": 82.17
-}
-"""
-
 class EarthquakeData(BaseModel):
     magnitude: float = None
     location: str = None

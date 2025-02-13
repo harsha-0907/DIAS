@@ -32,7 +32,7 @@ def readFile(file_path):
     except Exception as _e:
         return None
 
-def cityToCoordinates():
+def cityToCoordinates(cityname):
     apikey = "pk.02b5994cb8a776ef80fd220a5ebd8be4"  # Api key for location iq
     base_url = r"https://us1.locationiq.com/v1/search"
     params = {'key': apikey, 'q': cityname, 'format': 'json'}
@@ -115,19 +115,6 @@ def newCity(city):
     
     return None
 
-def updateDataStore(alerts):
-    for alert in alerts:
-        dataStore[city]["alert_level"] = max(dataStore[city]["alert_level"], alert.alert_level)
-        for index, alert_msg in enumerate(dataStore[city]["alerts"]):
-            if alert_msg[1] == alert.message:
-                # We have updated the already existing alert
-                dataStore[city]["alerts"][index][0] = alert.remove_after
-                continue
-        
-        # If the alert is not present then add the alert & update the number of alerts
-        dataStore[city]["alerts"].append(alert.message)
-        dataStore[city]["numberofalerts"] = len(dataStore[city]["alerts"])
-
 def parseResults(details):
     from model import ClientResponse
     if details is None:
@@ -147,11 +134,6 @@ def updateAlerts():
     from data import dataStore
     cities = list(dataStore.keys())
     # We need to update earthquake results & accuweather results
-
-    pass
-
-def updateFireAlerts():
-    # Add a Fire Alert from the sensor
     pass
 
 def clearAlerts():
@@ -168,6 +150,6 @@ def clearAlerts():
             i += 1
         dataStore[city]["numberofalerts"] = len(dataStore[city]["alerts"])
     
-    print("Cleared the Data")
+    # print("Cleared the Data")
 
 

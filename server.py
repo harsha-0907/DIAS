@@ -5,8 +5,8 @@ from fastapi import FastAPI, Response
 from helper import readFile
 from apscheduler.schedulers.background import BackgroundScheduler
 import uvicorn
+from typing import Optional
 from model import ClientRequest
-from helper import updateAlerts
 
 app = FastAPI()
 
@@ -18,15 +18,15 @@ def getHomePage():
 def isWorking():
     return Response(content="{'message': 'Working', 'success': 'true'}", headers={"Content-Type": "application/json"})
 
-@app.get("/getData")
-async def fetchData(api_key, lat, lng):
+@app.post("/getData")
+async def fetchData(request: ClientRequest):
     response = None
-    request = ClientRequest(api_key=api_key, lat=lat, lng=lng)
+    # request = ClientRequest(api_key=api_key, lat=lat, lng=lng)
     print(request.lat, request.lng, request.api_key)
     if request.api_key is None or request.lat is None or request.lng is None:
         pass
     else:
-        if api_key == "ker234kj4kj34j234":
+        if request.api_key == "ker234kj4kj34j234":
             print("Recieved Request")
             from helper import fetchData
             response_data = fetchData(request.lat, request.lng)
@@ -39,10 +39,9 @@ async def fetchData(api_key, lat, lng):
     return response
 
 @app.get("/fireAlarm")
-async def updateFireAlert(uid: int = None, city: str = None, value: str = None):
+async def updateFireAlert(uid: int = None, city: Optional[str] = None, value: Optional[str] = None):
     response = None
-    if uid is None or city is None:
-        # Not Updated
+    if uid is None:
         pass
     else:
         from fireAlarm import updateFireAlerts
