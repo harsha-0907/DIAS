@@ -60,4 +60,4 @@ if __name__ == "__main__":
     clear_alerts_sch.add_job(clearAlerts, 'interval', seconds=5)
     earth_quake_sch.start()
     clear_alerts_sch.start()
-    uvicorn.run("server:app", reload=True, host="0.0.0.0", port=8000, ssl_keyfile="/etc/letsencrypt/live/webhosting.ddns.net/privkey.pem", ssl_certfile="/etc/letsencrypt/live/webhosting.ddns.net/fullchain.pem")
+    uvicorn.run("server:app", reload=True, host="0.0.0.0", port=8000) #, ssl_keyfile="/etc/letsencrypt/live/webhosting.ddns.net/privkey.pem", ssl_certfile="/etc/letsencrypt/live/webhosting.ddns.net/fullchain.pem")
