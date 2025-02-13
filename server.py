@@ -39,13 +39,13 @@ async def fetchData(api_key, lat, lng):
     return response
 
 @app.get("/fireAlarm")
-async def updateFireAlert(id: int = None, city: str = None, value: str = None):
+async def updateFireAlert(uid: int = None, city: str = None, value: str = None):
     response = None
-    if sensorId is None or city is None:
+    if uid is None or city is None:
         # Not Updated
         pass
     else:
-        response = await updateFireAlerts(sensorId, city)
+        response = await updateFireAlerts(uid, city)
     
     return response
 
@@ -60,4 +60,4 @@ if __name__ == "__main__":
     clear_alerts_sch.add_job(clearAlerts, 'interval', seconds=5)
     earth_quake_sch.start()
     clear_alerts_sch.start()
-    uvicorn.run("server:app", reload=True, host="0.0.0.0", port=8080)
+    uvicorn.run("server:app", reload=True, host="0.0.0.0", port=8000)
