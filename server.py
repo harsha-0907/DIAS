@@ -45,7 +45,8 @@ async def updateFireAlert(uid: int = None, city: str = None, value: str = None):
         # Not Updated
         pass
     else:
-        response = await updateFireAlerts(uid, city)
+        from fireAlarm import updateFireAlerts
+        response = updateFireAlerts(uid, city)
     
     return response
 
