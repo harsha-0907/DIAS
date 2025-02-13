@@ -6,3 +6,6 @@ requests
 # Functionality
 apscheduler
 
+certbot
+gtts
+boto3
