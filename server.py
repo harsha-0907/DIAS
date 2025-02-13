@@ -38,8 +38,8 @@ async def fetchData(api_key, lat, lng):
     
     return response
 
-@app.get("/fireAlert")
-async def updateFireAlert(sensorId: str = None, city: str = None):
+@app.get("/fireAlarm")
+async def updateFireAlert(id: str = None, city: str = None, value: str = None):
     response = None
     if sensorId is None or city is None:
         # Not Updated
