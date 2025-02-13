@@ -2,6 +2,7 @@
 
 import math
 from model import EarthquakeData
+import time
 
 def haversineDistance(coordinate1,coordinate2):
     # Convert latitude and longitude from degrees to radians
@@ -72,6 +73,8 @@ def removeAfter(mag, alert_level):
 def updateEarthquakeData():
     # This module will only return list of earthquakes that have occured
     url = rf"https://earthquake.usgs.gov/fdsnws/event/1/query"
+    from datetime import datetime
+    import requests
     params = {'format': 'geojson', 'starttime': str(datetime.now())[:10]}
     resp = requests.get(url=url, params=params, allow_redirects=True)
     data = resp.json()
@@ -121,4 +124,5 @@ def updateEarthquakeAlerts(cities):
     
     from dataproc import updateDataStore
     updateDataStore(alerts)
+    print("Earth Quake Data Updated")
 

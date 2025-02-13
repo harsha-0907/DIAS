@@ -154,5 +154,20 @@ def updateFireAlerts():
     # Add a Fire Alert from the sensor
     pass
 
-def hi():
-    print("Hi")
+def clearAlerts():
+    from data import dataStore
+    import time
+    now_time = time.time()
+    for city in dataStore:
+        length = number_of_alerts; i = 0
+        while i < length:
+            if dataStore[city]["alerts"][0] >= now_time:
+                # The remove after has expired
+                dataStore[city]["alerts"].pop(i)
+                continue
+            i += 1
+        dataStore[city]["numberofalerts"] = len(dataStore[city]["alerts"])
+    
+    print("Cleared the Data")
+
+

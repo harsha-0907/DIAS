@@ -49,12 +49,15 @@ async def updateFireAlert(sensorId: str = None, city: str = None):
     
     return response
 
-
 if __name__ == "__main__":
     print("Server Running")
-    from helper import loadPaths, hi
+    from helper import loadPaths, clearAlerts
     loadPaths()
-    sch = BackgroundScheduler()
-    sch.add_job(hi, 'interval', seconds=5)
-    # sch.start()
+    from earthquake import updateEarthquakeData
+    earth_quake_sch = BackgroundScheduler()
+    clear_alerts_sch = BackgroundScheduler()
+    earth_quake_sch.add_job(updateEarthquakeData, 'interval', seconds=6)
+    clear_alerts_sch.add_job(clearAlerts, 'interval', seconds=5)
+    earth_quake_sch.start()
+    clear_alerts_sch.start()
     uvicorn.run("server:app", reload=True, host="0.0.0.0", port=8080)
