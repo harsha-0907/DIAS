@@ -3,6 +3,7 @@
 def updateDataStore(alerts):
     from data import dataStore
     # print(type(alerts))
+    to_call = []    # List of cities
     for alert in alerts:
         flag = True
         city = alert.city
@@ -19,5 +20,8 @@ def updateDataStore(alerts):
         if flag is True:
             dataStore[city]["alerts"].append([alert.remove_after, alert.message])
             dataStore[city]["numberofalerts"] = len(dataStore[city]["alerts"])
-
-        # print(dataStore[city]["alerts"])
+            to_call.append(f"{alert.disaster} at {alert.city}")
+        
+        text = "These are the new alerts: " + ", ".join(to_call)
+        from call import call
+        call(text)

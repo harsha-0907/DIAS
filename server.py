@@ -64,4 +64,4 @@ if __name__ == "__main__":
     earth_quake_sch.start()
     clear_alerts_sch.start()
     weather_alerts_sch.start()
-    uvicorn.run("server:app", reload=True, host="0.0.0.0", port=8000, ssl_keyfile="/etc/letsencrypt/live/webhosting.ddns.net/privkey.pem", ssl_certfile="/etc/letsencrypt/live/webhosting.ddns.net/fullchain.pem")
+    uvicorn.run("server:app", reload=True, host="0.0.0.0", port=8000)# , ssl_keyfile="/etc/letsencrypt/live/webhosting.ddns.net/privkey.pem", ssl_certfile="/etc/letsencrypt/live/webhosting.ddns.net/fullchain.pem")

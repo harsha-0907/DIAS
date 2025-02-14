@@ -72,6 +72,8 @@ def coordinatesToCity(lat, lng):
         print(f"Unknown Error\n Error: {_e}")
 
     finally:
+        if city == 'Vishakhapatnam':
+            city = "Visakhapatnam"
         return city
 
 def fetchData(lat: float, lng: float):    # This method will be invoked only when user requests resources
@@ -92,7 +94,7 @@ def fetchData(lat: float, lng: float):    # This method will be invoked only whe
                 from earthquake import updateEarthquakeAlerts
                 updateEarthquakeAlerts([city])
                 # Similarly we will do it for Acuweather API
-                from accuweather import fetchWeatherUpdaets
+                from accuweather import fetchWeatherUpdates
                 fetchWeatherUpdates([city])
                 # Now we can fetch the results from the dataStore
                 details = dataStore[city]

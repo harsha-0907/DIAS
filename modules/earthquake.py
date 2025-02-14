@@ -85,9 +85,11 @@ def updateEarthquakeData():
     now_time = time.time()
 
     for i in range(length):
+        
         eq = EarthquakeData()
         eq.magnitude = data['features'][i]['properties']['mag']
         eq.location = data['features'][i]['properties']['place']
+        # print(eq.location)
         _coordinates = data['features'][i]['geometry']['coordinates'][:2]
         eq.coordinates = _coordinates[::-1]
         eq.isTsunami = False if data['features'][i]['properties']['tsunami'] == 0 else True
